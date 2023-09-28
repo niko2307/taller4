@@ -14,6 +14,10 @@ public:
     Punto& operator=(const Punto& p);
     bool operator==(const Punto& p) const;
     friend std::ostream& operator<<(std::ostream& o, const Punto& p);
+    int* obtenerx();
+    int* obtenery();
+    void  fijarx(Punto sx);
+    void fijary(Punto sy);
 
 
 };
