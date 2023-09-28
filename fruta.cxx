@@ -7,7 +7,7 @@ Fruta::Fruta( std::string& tipo, double p, int col) {
     color = col;
 }
 Fruta::Fruta(){
-    
+
 }
 
 
@@ -34,3 +34,23 @@ void Fruta::fijarPeso(double p) {
 void Fruta::fijarColor(int col) {
     color = col;
 }
+
+bool Fruta:: inarbolquad(ArbolQuad<Fruta>& quad){
+    Fruta& frutaActual = *this; // Crear una referencia a la fruta actual  para insertarlo en el arbol de quad
+    if (quad.insertar(frutaActual)) {
+        return true; 
+    } else {
+        return false; 
+    }
+}
+
+
+bool Fruta::inarbolkd(ArbolKD<Fruta>& kd) {
+    Fruta& frutaActual = *this; // Crear una referencia a la fruta actual  para insertarlo en el arbol de quad
+    if (kd.insertar(frutaActual)) {
+        return true; 
+    } else {
+        return false; 
+    }
+}
+
