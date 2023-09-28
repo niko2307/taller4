@@ -2,7 +2,8 @@
 #include <cmath> 
 #include <iostream>
 #include <fstream> 
-
+#include "arbolquad.h" 
+#include "fruta.h"
 using namespace std;
 
 int main(int argc, char* argv[]) {
@@ -18,8 +19,26 @@ int main(int argc, char* argv[]) {
         cout << "Error al abrir el archivo: " << nombreArchivo << endl;
         return 1;
     }
+   ArbolQuad<Fruta> quadtree;
+   int numFrutas;
+    archivo >> numFrutas;
 
-    
+    for (int i = 0; i < numFrutas; ++i) {
+        string clase;
+        double peso;
+        int color;
+        archivo >> clase >> peso >> color;
+
+        Fruta fruta(clase, peso, color);
+
+        fruta.inarbolquad(quadtree);
+       if (fruta.inarbolquad(quadtree)) {
+            cout << "Fruta insertada en Quadtree: " << clase << ", Peso: " << peso << ", Color: " << color << endl;
+        } else {
+            cout << "Error al insertar la fruta en Quadtree" << endl;
+        }
+    }
+
 
     int n;
     std::clock_t init_time = std::clock();
@@ -42,3 +61,4 @@ int main(int argc, char* argv[]) {
 
     return 0;
 }
+
