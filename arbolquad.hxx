@@ -1,4 +1,5 @@
-#include "arbolkd.hxx"
+#include "arbolquad.h"
+#include "fruta.h"
 
 template <class T>
 bool ArbolQuad<T>::esVacio() {
@@ -37,4 +38,18 @@ template <class T>
 ArbolQuad<T>::ArbolQuad() {
     this -> raiz=NULL;
 }
+
+
+template <class T>
+bool ArbolQuad<T>:: insertar(Fruta &fruta){
+  if (raiz == NULL) {
+            raiz = new NodoQuad<T>(fruta);
+            return true; //se logro insertar correctamente 
+        }else{
+             return raiz->insertar(fruta);
+        }
+    
+ }
+
+ 
 
