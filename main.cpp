@@ -1,13 +1,18 @@
 #include <ctime>
-#include <cmath> 
+#include <cmath>
 #include <iostream>
-#include <fstream> 
-#include "arbolquad.h" 
+#include <fstream>
+#include "arbolquad.h"
+#include "arbolkd.h"
 #include "fruta.h"
 using namespace std;
 
-int main(int argc, char* argv[]) {
-    if (argc != 2) {
+typedef ArbolKD<Fruta> TArbolKD;
+
+int main(int argc, char *argv[])
+{
+    if (argc != 2)
+    {
         cout << "Uso: " << argv[0] << " <nombre_del_archivo>" << endl;
         return 1;
     }
@@ -15,15 +20,18 @@ int main(int argc, char* argv[]) {
     string nombreArchivo = argv[1];
     ifstream archivo(nombreArchivo);
 
-    if (!archivo) {
+    if (!archivo)
+    {
         cout << "Error al abrir el archivo: " << nombreArchivo << endl;
         return 1;
     }
-   ArbolQuad<Fruta> quadtree;
-   int numFrutas;
+    // ArbolQuad<Fruta> quadtree;
+    int numFrutas;
     archivo >> numFrutas;
+    TArbolKD arbolKD;
 
-    for (int i = 0; i < numFrutas; ++i) {
+    for (int i = 0; i < numFrutas; ++i)
+    {
         string clase;
         double peso;
         int color;
@@ -31,14 +39,14 @@ int main(int argc, char* argv[]) {
 
         Fruta fruta(clase, peso, color);
 
-        fruta.inarbolquad(quadtree);
-       if (fruta.inarbolquad(quadtree)) {
-            cout << "Fruta insertada en Quadtree: " << clase << ", Peso: " << peso << ", Color: " << color << endl;
-        } else {
-            cout << "Error al insertar la fruta en Quadtree" << endl;
-        }
+        //     fruta.inarbolquad(quadtree);
+        //    if (fruta.inarbolquad(quadtree)) {
+        //         cout << "Fruta insertada en Quadtree: " << clase << ", Peso: " << peso << ", Color: " << color << endl;
+        //     } else {
+        //         cout << "Error al insertar la fruta en Quadtree" << endl;
+        //     }
+        fruta.inarbolkd(arbolKD);
     }
-
 
     int n;
     std::clock_t init_time = std::clock();
@@ -47,7 +55,8 @@ int main(int argc, char* argv[]) {
 
     for (int i = 2; i <= n; ++i)
         for (int j = sqrt(i); j > 1; --j)
-            if (i % j == 0) {
+            if (i % j == 0)
+            {
                 --freq;
                 break;
             }
@@ -57,8 +66,7 @@ int main(int argc, char* argv[]) {
     double calc_time = (end_time - init_time) / double(CLOCKS_PER_SEC);
     cout << " It took me " << calc_time << " seconds.\n";
 
-    archivo.close(); 
+    archivo.close();
 
     return 0;
 }
-

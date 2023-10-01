@@ -3,19 +3,20 @@
 
 #include <string>
 
-class Fruta {
+class Fruta
+{
 private:
-    std::string clase; 
-    double peso;       
-    int color;         
+    std::string clase;
+    double peso;
+    int color;
 
 public:
     Fruta();
-    Fruta( std::string& tipo, double p, int col);
-    std::string obtenerClase() ;
-    double obtenerPeso() ;
-    int obtenerColor() ;
-    void fijarClase( std::string& tipo);
+    Fruta(std::string &tipo, double p, int col);
+    std::string obtenerClase();
+    double obtenerPeso();
+    int obtenerColor();
+    void fijarClase(std::string &tipo);
     void fijarPeso(double p);
     void fijarColor(int col);
 };
