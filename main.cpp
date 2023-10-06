@@ -34,22 +34,20 @@ int main(int argc, char* argv[]) {
       
 
  std::string linea;
-         std::clock_t start_arbolQuad = std::clock();
-         std::clock_t start_arbolkd = std::clock();
+        
     while(getline(archivo, linea)){
      
         std::istringstream iss (linea);
         //Fruta fruta;
-        std::string clase;
+        string clase;
         double peso;
         int color;
         archivo >> clase >> peso >> color;
-        std::cout<<clase<<peso<<color;
         Punto val(peso, color, clase);
 
        
           bool insertQUAD=arbolQuad.insertar(val);
-          //bool insertkd= arbolkd.insert(peso, color, clase);
+          bool insertkd= arbolkd.insert(val);
           
 
 
@@ -57,18 +55,21 @@ int main(int argc, char* argv[]) {
     }
 
     double pesoBusqueda, colorBusqueda;
-    std::cout << "Ingrese el peso que desea buscar: ";
-    std::cin >> pesoBusqueda;
-    std::cout << "Ingrese el color que desea buscar: ";
-    std::cin >> colorBusqueda;
+    cout << "Ingrese el peso que desea buscar: ";
+    cin >> pesoBusqueda;
+    cout << "Ingrese el color que desea buscar: ";
+    cin >> colorBusqueda;
 
- // Realizar la búsqueda y medir el tiempo de ejecución
-  
 
-    arbolkd.posOrden();
-    std::string nombreFruta = arbolkd.buscarFruta( pesoBusqueda,colorBusqueda) ;
-    
-    std::cout << "La fruta encontrada es: " << nombreFruta << std::endl;
+         std::clock_t start_arbolQuad = std::clock();
+         std::clock_t start_arbolkd = std::clock();
+         NodoQuad<Punto>* nodoQuadEncontrado = arbolQuad.buscarNodo(Punto(pesoBusqueda, colorBusqueda));
+
+if (nodoQuadEncontrado) {
+        cout << "La fruta encontrada en el árbol Quad es: " << nodoQuadEncontrado->obtenerDato().obtenernombre() << endl;
+    } else {
+        cout << "La fruta no se encontró en el árbol Quad" << endl;
+    }
     
 
            std::clock_t end_arbolQuad = std::clock();
@@ -84,4 +85,3 @@ int main(int argc, char* argv[]) {
     archivo.close(); 
     return 0;
 }
-
