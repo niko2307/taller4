@@ -3,23 +3,29 @@
 
 #include <iostream>
 
-class Punto {
+class Punto
+{
 
 private:
-    int x;
-    int y;
+    double x; // peso
+    int y;    // color
+    std::string clasificacion;
 
 public:
-    Punto(int x, int y);  // Constructor
-    Punto& operator=(const Punto& p);
-    bool operator==(const Punto& p) const;
-    friend std::ostream& operator<<(std::ostream& o, const Punto& p);
-    int* obtenerx();
-    int* obtenery();
-    void  fijarx(Punto sx);
+    Punto();
+    Punto(double x, int y, std::string clasificacion);
+    Punto(double x, int y);
+    /*
+    Punto& operator=( Punto& p);
+    bool operator==( Punto& p) ;
+    friend std::ostream& operator<<(std::ostream& o, Punto& p);
+   */
+    double *obtenerx();
+    int *obtenery();
+    std::string obtenernombre();
+    void fijarx(Punto sx);
     void fijary(Punto sy);
-
-
+    void fijarnombre(Punto snombre);
 };
 
 #endif // PUNTO_H
