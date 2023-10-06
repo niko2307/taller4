@@ -2,23 +2,23 @@
 template <class T>
 
 NodoKD<T>::NodoKD(Punto val){
-dato= val;
-hijoIzq = NULL;
-hijoDer=NULL;
+this->dato= val;
+this->hijoIzq = NULL;
+this->hijoDer=NULL;
 
 }
 template <class T>
 NodoKD<T>::NodoKD(){
-hijoIzq = NULL;
-hijoDer=NULL;
+this->hijoIzq = NULL;
+this->hijoDer=NULL;
 }
 
 template <class T>
 bool NodoKD<T>::esHoja(int depth) {
     if (depth % 2 == 0) {
-        return (hijoDer == NULL && hijoIzq == NULL);
+        return (this->hijoDer == NULL && hijoIzq == NULL);
     } else {
-        return (hijoDer == NULL && hijoIzq == NULL);
+        return (this->hijoDer == NULL && hijoIzq == NULL);
     }
 }
 
@@ -29,7 +29,7 @@ Punto NodoKD<T>::obtenerDato(){
 
 template <class T>
 void NodoKD<T>::fijarDato(Punto val){
-    dato=val;
+    this->dato=val;
 
 }
 
@@ -45,13 +45,13 @@ NodoKD<T> *NodoKD<T>::obtenerHijoIzq(){
 
 template <class T>
 void NodoKD<T>:: fijarHijoDer(NodoKD<T>* der){
-      hijoDer =der;
+      this->hijoDer =der;
 
 }
 
 template <class T>
 void NodoKD<T>:: fijarHijoIzq(NodoKD<T>* izq){
-      hijoIzq = izq;
+      this->hijoIzq = izq;
 
 }
 
