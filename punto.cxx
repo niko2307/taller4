@@ -37,24 +37,24 @@ std::ostream& operator<<(std::ostream& o,  Punto& p) {
     return o;
 }
 */
-double *Punto::obtenerx()
+double Punto::obtenerx()
 {
-    return &x;
+    return x;
 }
 
 void Punto::fijarx(Punto sx)
 {
-    this->x = *sx.obtenerx();
+    this->x = sx.obtenerx();
 }
 
-int *Punto::obtenery()
+int Punto::obtenery()
 {
-    return &y;
+    return y;
 }
 
 void Punto::fijary(Punto sy)
 {
-    this->y = *sy.obtenery();
+    this -> y = sy.obtenery();
 }
 
 std::string Punto::obtenernombre()
