@@ -20,12 +20,13 @@ public:
     bool operator==( Punto& p) ;
     friend std::ostream& operator<<(std::ostream& o, Punto& p);
    */
-    double *obtenerx();
-    int *obtenery();
+    double obtenerx();
+    int obtenery();
     std::string obtenernombre();
     void fijarx(Punto sx);
     void fijary(Punto sy);
     void fijarnombre(Punto snombre);
 };
+#include "punto.cxx"
 
 #endif // PUNTO_H
