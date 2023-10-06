@@ -40,15 +40,16 @@ int main(int argc, char* argv[]) {
      
         std::istringstream iss (linea);
         //Fruta fruta;
-        string clase;
+        std::string clase;
         double peso;
         int color;
         archivo >> clase >> peso >> color;
+        std::cout<<clase<<peso<<color;
         Punto val(peso, color, clase);
 
        
           bool insertQUAD=arbolQuad.insertar(val);
-          bool insertkd= arbolkd.insert(val);
+          //bool insertkd= arbolkd.insert(peso, color, clase);
           
 
 

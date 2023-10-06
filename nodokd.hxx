@@ -3,6 +3,9 @@ template <class T>
 
 NodoKD<T>::NodoKD(Punto val){
 dato= val;
+hijoIzq = NULL;
+hijoDer=NULL;
+
 }
 template <class T>
 NodoKD<T>::NodoKD(){

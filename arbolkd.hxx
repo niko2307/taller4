@@ -3,49 +3,113 @@
 #include "fruta.h"
 #include <limits>
 
-template <class T>
-bool ArbolKD<T>::insert(T &val)
-{
-    insertRec(this->raiz, val,0);
-    return true;
-}
+
 
 template <class T>
-NodoKD<T>* ArbolKD<T>::insertRec(NodoKD<T> *root, Punto p, int depth )
+bool ArbolKD<T>::insert(double peso, int color,std::string clase )
 {
+    std::cout<<"entroinsertar"<<std::endl;
+    Punto p (peso, color, clase);
+     std::cout <<"puntox: "<<*p.obtenerx()<<"puntoy: "<<*p.obtenery()<<std::endl;
+   
+    NodoKD<T>* nodo = this->raiz;
+    NodoKD<T>* padre = this->raiz;
+    bool insertado = false;
+	bool duplicado = false;
+    int depth=0;
     
-    NodoKD<T> *nuevo = new NodoKD<T>();
-    if (root == NULL)
-    {
-        root = new NodoKD<T>(p);
-        return root;
+    std::cout <<"puntox: "<<*p.obtenerx()<<"puntoy: "<<*p.obtenery()<<std::endl;
+    if(this->raiz == nullptr){
+        
+        this->raiz = new NodoKD<T>(p);
+        insertado = true;
+        std::cout<<"entroifnuevoraiz"<<std::endl;
+        return insertado;
     }
 
-    int cd = depth % 2;
+    while(nodo != nullptr){
+        std::cout<<"entrowhilenodo"<<std::endl;
+        padre = nodo;
+        int cd = depth % 2;
+
     if (cd == 0)
     {
-        if (p.obtenerx() < root->obtenerDato().obtenerx())
+        std::cout<<"cuadrante1"<<std::endl;
+        std::cout<<" "<<std::endl;
+       if (*p.obtenerx() < *nodo->obtenerDato().obtenerx())
         {
-            nuevo = insertRec(root->obtenerHijoIzq(), p, depth + 1);
-        }
-        else
+            std::cout<<"obtener x hijo izq "<<std::endl;
+           nodo = nodo -> obtenerHijoIzq();
+        } 
+        else if (*p.obtenerx() > *nodo->obtenerDato().obtenerx())
         {
-            nuevo = insertRec(root->obtenerHijoDer(), p, depth + 1);
+            std::cout<<"obtener x hijo der "<<std::endl;
+           nodo = nodo -> obtenerHijoDer();
+           std::cout<<"obtener hijo izq "<<std::endl;
+            //std::cout << "nombre: " << nodo->obtenerDato().obtenernombre()  << std::endl;
+       
         }
-    }
-    else
+    }else
     {
-        if (p.obtenery() < root->obtenerDato().obtenery())
+       std::cout<<"cuadrante2"<<std::endl;
+        if (*p.obtenery() < *nodo->obtenerDato().obtenery())
         {
-            nuevo = insertRec(root->obtenerHijoIzq(), p, depth + 1);
-        }
-        else
+            std::cout<<"obtener y hijo izq "<<std::endl;
+           nodo = nodo -> obtenerHijoIzq();
+        } 
+        else if (*p.obtenery() > *nodo->obtenerDato().obtenery())
         {
-            nuevo = insertRec(root->obtenerHijoDer(), p, depth + 1);
+            std::cout<<"obtener y hijo der "<<std::endl;
+            nodo = nodo -> obtenerHijoDer();
         }
     }
-    return nuevo;
+
+    if(nodo !=nullptr && *p.obtenerx() == *nodo->obtenerDato().obtenerx() &&  *p.obtenery() == *nodo->obtenerDato().obtenery()){
+        duplicado = true;
+        std::cout<<"es duplicado"<<std::endl;
+        break;
+    }
+
+    depth++; 
+    }
+    if(!duplicado){
+        std::cout<<"no es duplicado"<<std::endl;
+       NodoKD<T>* nuevo = new NodoKD<T>(p);
+       int cd = (depth-1) % 2;
+        
+           if (cd == 0)
+            {
+            if (*p.obtenerx() < *nodo->obtenerDato().obtenerx())
+                {
+                    std::cout<<"fijar hijo izquierdo "<<std::endl;
+                padre -> fijarHijoIzq(nuevo);
+                } 
+                else if (*p.obtenerx() > *nodo->obtenerDato().obtenerx())
+                {
+                    std::cout<<"fijar hijo derecho "<<std::endl;
+                    padre -> fijarHijoDer(nuevo);
+                }
+            }else if (cd == 1)
+            {
+                if (*p.obtenery() < *nodo->obtenerDato().obtenery())
+                {
+                    std::cout<<"fijar hijo izquierdo "<<std::endl;
+                padre -> fijarHijoIzq(nuevo);
+                } 
+                else if (*p.obtenery() > *nodo->obtenerDato().obtenery())
+                {
+                    std::cout<<"fijar hijo derecho "<<std::endl;
+                    padre -> fijarHijoDer(nuevo);
+                }
+            }
+
+            insertado = true;
+
+    }
+    return insertado;
+
 }
+ 
 
 template <class T>
 ArbolKD<T>::ArbolKD() {
@@ -53,8 +117,8 @@ ArbolKD<T>::ArbolKD() {
 }
 
 template <class T>
-ArbolKD<T>::ArbolKD(Punto val) {
-    raiz = new NodoKD<T>(val);
+ArbolKD<T>::ArbolKD(Punto p) {
+    raiz = new NodoKD<T>(p);
 }
 
 
