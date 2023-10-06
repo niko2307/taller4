@@ -136,22 +136,13 @@ void ArbolQuad<T>::preorden(NodoQuad<T>* nodo) {
     if (nodo == nullptr) {
         return;
     }
-
     std::cout<< nodo->obtenerDato().obtenernombre();
-    // Luego, visita el subárbol izquierdo (CUADRANTE_1)
     preorden(nodo->obtenerHijoSupIzq());
-
-    // A continuación, visita el subárbol superior derecho (CUADRANTE_2)
     preorden(nodo->obtenerHijoSupDer());
-
-    // Después, visita el subárbol inferior izquierdo (CUADRANTE_3)
     preorden(nodo->obtenerHijoInfIzq());
-
-    // Finalmente, visita el subárbol inferior derecho (CUADRANTE_4)
     preorden(nodo->obtenerHijoInfDer());
 }
 
-// Método público para iniciar el recorrido en preorden desde la raíz del árbol
 template <class T>
 void ArbolQuad<T>::preOrden() {
     preorden(raiz);
