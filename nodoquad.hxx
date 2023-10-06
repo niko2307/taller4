@@ -1,7 +1,8 @@
 #include "nodoquad.h"
+
 template <class T>
 NodoQuad<T>::NodoQuad(Punto val){
-dato= val;
+ dato= val;
  hijoSupIzq=NULL;
  hijoSupDer=NULL; 
  hijoInfIzq=NULL; 
@@ -10,10 +11,6 @@ dato= val;
 }
 template <class T>
 NodoQuad<T>::NodoQuad(){
- hijoSupIzq=NULL;
- hijoSupDer=NULL; 
- hijoInfIzq=NULL; 
- hijoInfDer=NULL;
 }
 
 template <class T>
@@ -56,26 +53,25 @@ NodoQuad<T> *NodoQuad<T>::obtenerHijoSupIzq(){
 
 
 template <class T>
-void NodoQuad<T>:: fijarHijoSupIzq(NodoQuad* sizq){
+void NodoQuad<T>:: fijarHijoSupIzq(NodoQuad<T>* sizq){
       hijoSupIzq = sizq;
 
 }
 template <class T>
-void NodoQuad<T>::fijarHijoSupDer(NodoQuad* sder) {
+void NodoQuad<T>::fijarHijoSupDer(NodoQuad<T>* sder) {
       hijoSupDer = sder;
 
 }
 template <class T>
-void NodoQuad<T>:: fijarHijoInfIzq(NodoQuad* iizq){
+void NodoQuad<T>:: fijarHijoInfIzq(NodoQuad<T>* iizq){
      hijoInfIzq = iizq;
 
 
 }
 template <class T>
-void NodoQuad<T>::fijarHijoInfDer(NodoQuad* ider) {
+void NodoQuad<T>::fijarHijoInfDer(NodoQuad<T>* ider) {
       hijoInfDer = ider;
 
 }
-
 
 

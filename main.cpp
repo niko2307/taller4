@@ -1,18 +1,21 @@
+
 #include <ctime>
-#include <cmath>
+#include <cmath> 
 #include <iostream>
 #include <fstream>
-#include "arbolquad.h"
+#include <sstream>
+#include <string>
+#include "arbolquad.h" 
 #include "arbolkd.h"
 #include "fruta.h"
+
+#include "punto.h"
+
 using namespace std;
 
-typedef ArbolKD<Fruta> TArbolKD;
-
-int main(int argc, char *argv[])
-{
-    if (argc != 2)
-    {
+int main(int argc, char* argv[]) {
+   
+    if (argc != 2) {
         cout << "Uso: " << argv[0] << " <nombre_del_archivo>" << endl;
         return 1;
     }
@@ -20,53 +23,62 @@ int main(int argc, char *argv[])
     string nombreArchivo = argv[1];
     ifstream archivo(nombreArchivo);
 
-    if (!archivo)
-    {
+    if (!archivo) {
         cout << "Error al abrir el archivo: " << nombreArchivo << endl;
         return 1;
     }
-    // ArbolQuad<Fruta> quadtree;
-    int numFrutas;
-    archivo >> numFrutas;
-    TArbolKD arbolKD;
 
-    for (int i = 0; i < numFrutas; ++i)
-    {
+
+      ArbolQuad<Punto> arbolQuad;
+      ArbolKD<Punto> arbolkd;
+      
+
+ std::string linea;
+         std::clock_t start_arbolQuad = std::clock();
+         std::clock_t start_arbolkd = std::clock();
+    while(getline(archivo, linea)){
+     
+        std::istringstream iss (linea);
+        //Fruta fruta;
         string clase;
         double peso;
         int color;
         archivo >> clase >> peso >> color;
+        Punto val(peso, color, clase);
 
-        Fruta fruta(clase, peso, color);
+       
+          bool insertQUAD=arbolQuad.insertar(val);
+          bool insertkd= arbolkd.insert(val);
+          
 
-        //     fruta.inarbolquad(quadtree);
-        //    if (fruta.inarbolquad(quadtree)) {
-        //         cout << "Fruta insertada en Quadtree: " << clase << ", Peso: " << peso << ", Color: " << color << endl;
-        //     } else {
-        //         cout << "Error al insertar la fruta en Quadtree" << endl;
-        //     }
-        fruta.inarbolkd(arbolKD);
+
+          cout<<"se insero correctamente en los arboles quad y kd  "<<endl;
     }
 
-    int n;
-    std::clock_t init_time = std::clock();
-    int freq = 99998;
-    archivo >> n;
+    double pesoBusqueda, colorBusqueda;
+    std::cout << "Ingrese el peso que desea buscar: ";
+    std::cin >> pesoBusqueda;
+    std::cout << "Ingrese el color que desea buscar: ";
+    std::cin >> colorBusqueda;
 
-    for (int i = 2; i <= n; ++i)
-        for (int j = sqrt(i); j > 1; --j)
-            if (i % j == 0)
-            {
-                --freq;
-                break;
-            }
+ // Realizar la búsqueda y medir el tiempo de ejecución
+  
+    std::string nombreFruta = arbolkd.buscarFruta( pesoBusqueda,colorBusqueda) ;
+    
+    std::cout << "La fruta encontrada es: " << nombreFruta << std::endl;
+    
 
-    std::clock_t end_time = std::clock();
-    cout << "The number of primes lower than 100000 is: " << freq << endl;
-    double calc_time = (end_time - init_time) / double(CLOCKS_PER_SEC);
-    cout << " It took me " << calc_time << " seconds.\n";
+           std::clock_t end_arbolQuad = std::clock();
+           std::clock_t end_arbolkd = std::clock();
+           double tiempo_arbolQuad = static_cast<double>(end_arbolQuad - start_arbolQuad) / CLOCKS_PER_SEC;
+           double tiempo_arbolkd = static_cast<double>(end_arbolkd - start_arbolkd) / CLOCKS_PER_SEC;
+    
+        
+           std::cout << "Tiempo transcurrido en arbolQuad: " << tiempo_arbolQuad << " segundos" << std::endl;
+           std::cout << "Tiempo transcurrido en arbolkd: " << tiempo_arbolkd << " segundos" << std::endl;  
+       
 
-    archivo.close();
-
+    archivo.close(); 
     return 0;
 }
+

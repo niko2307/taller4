@@ -1,28 +1,33 @@
 #ifndef NODOQUAD_H
 #define NODOQUAD_H
-classNodoQuad{
-  protected: 
-punto dato; 
-NodoQuad* hijoSupIzq;
-NodoQuad* hijoSupDer; 
-NodoQuad* hijoInfIzq; 
-NodoQuad* hijoInfDer;
+#include "punto.h"
+#include "fruta.h"
+
+template <class T>
+class NodoQuad{
+private:
+Punto dato; 
+NodoQuad<T>* hijoSupIzq;
+NodoQuad<T>* hijoSupDer; 
+NodoQuad<T>* hijoInfIzq; 
+NodoQuad<T>* hijoInfDer;
   public: 
 NodoQuad();
-NodoQuad(punto val); 
+NodoQuad(Punto val); 
 ~NodoQuad();
-punto obtenerDato(); 
-voidfijarDato(punto val); 
-NodoQuad* obtenerHijoSupIzq(); 
-NodoQuad* obtenerHijoSupDer(); 
-NodoQuad* obtenerHijoInfIzq(); 
-NodoQuad* obtenerHijoInfDer(); 
-void fijarHijoSupIzq(NodoQuad* sizq); 
-void  fijarHijoSupDer(NodoQuad* sder); 
-void fijarHijoInfIzq(NodoQuad* iizq);
-void fijarHijoInfDer(NodoQuad* ider);
+Punto obtenerDato(); 
+void fijarDato(Punto val); 
+NodoQuad<T>* obtenerHijoSupIzq(); 
+NodoQuad<T>* obtenerHijoSupDer(); 
+NodoQuad<T>* obtenerHijoInfIzq(); 
+NodoQuad<T>* obtenerHijoInfDer(); 
+void fijarHijoSupIzq(NodoQuad<T>* sizq); 
+void  fijarHijoSupDer(NodoQuad<T>* sder); 
+void fijarHijoInfIzq(NodoQuad<T>* iizq);
+void fijarHijoInfDer(NodoQuad<T>* ider);
 bool esHoja();
   
   
 };
+#include"nodoquad.hxx"
 #endif // NODOQUAD.H
