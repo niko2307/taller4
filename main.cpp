@@ -47,7 +47,7 @@ int main(int argc, char* argv[]) {
 
        
           bool insertQUAD=arbolQuad.insertar(val);
-          bool insertkd= arbolkd.insert(val);
+          bool insertkd= arbolkd.insert( peso,  color,clase );
           
 
 
