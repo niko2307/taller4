@@ -63,6 +63,8 @@ int main(int argc, char* argv[]) {
 
  // Realizar la búsqueda y medir el tiempo de ejecución
   
+
+    arbolkd.posOrden();
     std::string nombreFruta = arbolkd.buscarFruta( pesoBusqueda,colorBusqueda) ;
     
     std::cout << "La fruta encontrada es: " << nombreFruta << std::endl;

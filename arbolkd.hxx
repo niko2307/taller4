@@ -139,3 +139,49 @@ int ArbolKD<T>::obtenerProfundidad(NodoKD<T>* nodo) {
     int profundidadDer = obtenerProfundidad(nodo->obtenerHijoDer());
     return std::max(profundidadIzq, profundidadDer) + 1;
 }
+
+// Método de recorrido en orden (in-order)
+template <class T>
+void ArbolKD<T>::inOrden(NodoKD<T>* nodo) {
+    if (nodo != nullptr) {
+        inOrden(nodo->obtenerHijoIzq());
+        std::cout << "nombre: " << nodo->obtenerDato().obtenernombre() << " peso: " << *nodo->obtenerDato().obtenerx() << " color: " << *nodo->obtenerDato().obtenery() << std::endl;
+        inOrden(nodo->obtenerHijoDer());
+    }
+}
+
+// Método de recorrido preorden
+template <class T>
+void ArbolKD<T>::preOrden(NodoKD<T>* nodo) {
+    if (nodo != nullptr) {
+        std::cout << "nombre: " << nodo->obtenerDato().obtenernombre() << " peso: " << *nodo->obtenerDato().obtenerx() << " color: " << *nodo->obtenerDato().obtenery() << std::endl;
+        preOrden(nodo->obtenerHijoIzq());
+        preOrden(nodo->obtenerHijoDer());
+    }
+}
+
+// Método de recorrido postordenArbolKD<T>::
+template <class T>
+void ArbolKD<T>::posOrden(NodoKD<T>* nodo) {
+    if (nodo != nullptr) {
+        posOrden(nodo->obtenerHijoIzq());
+        posOrden(nodo->obtenerHijoDer());
+        std::cout << "nombre: " << nodo->obtenerDato().obtenernombre() << " peso: " << *nodo->obtenerDato().obtenerx() << " color: " << *nodo->obtenerDato().obtenery() << std::endl;
+    }
+}
+
+// Funciones públicas para iniciar los recorridos desde la raíz del Árbol KD
+template <class T>
+void ArbolKD<T>::inOrden() {
+    inOrden(this->raiz);
+}
+
+template <class T>
+void ArbolKD<T>::preOrden() {
+    preOrden(this->raiz);
+}
+
+template <class T>
+void ArbolKD<T>::posOrden() {
+    posOrden(this->raiz);
+}

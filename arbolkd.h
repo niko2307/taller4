@@ -19,10 +19,15 @@ Punto datoRaiz();
 NodoKD<T>* obtenerRaiz();
 void fijarRaiz(NodoKD<T>* n_raiz);
 bool esVacio();
+
 void preOrden();
 void inOrden();
 void posOrden();
-void nivelOrden();
+void preOrden(NodoKD<T>* nodo);
+void inOrden(NodoKD<T>* nodo);
+void posOrden(NodoKD<T>* nodo);
+
+
 bool insert(T &val);
 NodoKD<T>* insertRec(NodoKD<T> *root, Punto p, int depth);
 
