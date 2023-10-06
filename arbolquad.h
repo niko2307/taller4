@@ -4,13 +4,7 @@
 #include "punto.h"
 #include "nodoquad.h"
 #include "fruta.h"
-typedef enum
-{
-    CUADRANTE_1,
-    CUADRANTE_2,
-    CUADRANTE_3,
-    CUADRANTE_4
-} Cuadrante;
+
 
 template <class T>
 class ArbolQuad
@@ -20,21 +14,19 @@ private:
 
 public:
     ArbolQuad();
-    bool insertar(T &val);
-    Cuadrante calcularCuadrante(Punto coordenadas);
-    NodoQuad<T> *insertarRecursivo(NodoQuad<T> *actual, T val, Cuadrante cuadrante);
+    bool insertar(T val);
     ~ArbolQuad();
     Punto datoRaiz();
     NodoQuad<T> *obtenerRaiz();
     void fijarRaiz(NodoQuad<T> *n_raiz);
-    NodoQuad<T> *buscar(Punto p);
+    NodoQuad<T> *buscarNodo(Punto val);
+    void preorden(NodoQuad<T> *nodo);
     bool esVacio();
     void preOrden();
     void inOrden();
     void posOrden();
     void nivelOrden();
-    std::string buscarQuad(T &val);
-    void buscarRecursivo(NodoQuad<T> *actual, double peso, std::string color, std::string &nombreFrutaCercana, double &pesoFrutaCercana, double &distanciaMinima);
+   
 };
 #include "arbolquad.hxx"
 #endif // ARBOLQUAD.H
