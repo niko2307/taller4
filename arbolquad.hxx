@@ -1,4 +1,4 @@
-
+#include <cmath> 
 #include "arbolquad.h"
 
 template <class T>
@@ -31,128 +31,128 @@ ArbolQuad<T>::ArbolQuad()
 }
 
 template <class T>
-NodoQuad<T> *ArbolQuad<T>::insertarRecursivo(NodoQuad<T> *actual, T val, Cuadrante cuadrante)
+bool ArbolQuad<T>::insertar(T dato)
 {
+    NodoQuad<T> *nodo = this->raiz;
+    NodoQuad<T> *padre = this->raiz;
+    bool insertado = false;
+    bool duplicado = false;
+    Punto P;
 
-    if (actual == nullptr)
+    if (this->raiz == nullptr)
     {
-
-        NodoQuad<T> *nuevoNodo = new NodoQuad<T>(val);
-        actual = nuevoNodo;
-
-        return actual;
+        this->raiz = new NodoQuad<T>(dato);
+        insertado = true;
+        return insertado;
     }
 
-    Punto coordenadas = actual->obtenerDato();
-    Cuadrante elementoCuadrante;
-    double x = *coordenadas.obtenerx();
-    double y = *coordenadas.obtenery();
-
-    if (x <= *val.obtenerx() && y <= *val.obtenery())
+    while (nodo != NULL)
     {
-        elementoCuadrante = CUADRANTE_1;
-    }
-    else if (x <= *val.obtenerx() && y > *val.obtenery())
-    {
-        elementoCuadrante = CUADRANTE_2;
-    }
-    else if (x > *val.obtenerx() && y <= *val.obtenery())
-    {
-        elementoCuadrante = CUADRANTE_3;
-    }
-    else
-    {
-        elementoCuadrante = CUADRANTE_4;
-    }
-
-    if (cuadrante == elementoCuadrante)
-    {
-        switch (cuadrante)
+        padre = nodo;
+        P = nodo->obtenerDato();
+        if (dato.obtenerx() <= P.obtenerx() && dato.obtenery() > P.obtenery())
         {
-        case CUADRANTE_1:
-
-            return insertarRecursivo(actual->obtenerHijoSupIzq(), val, cuadrante);
-        case CUADRANTE_2:
-            return insertarRecursivo(actual->obtenerHijoSupDer(), val, cuadrante);
-        case CUADRANTE_3:
-            return insertarRecursivo(actual->obtenerHijoInfIzq(), val, cuadrante);
-        case CUADRANTE_4:
-            return insertarRecursivo(actual->obtenerHijoInfDer(), val, cuadrante);
+            nodo = nodo->obtenerHijoSupIzq();
+        }
+        else if (dato.obtenerx() > P.obtenerx() && dato.obtenery() > P.obtenery())
+        {
+            nodo = nodo->obtenerHijoSupDer();
+        }
+        else if (dato.obtenerx() <= P.obtenerx() && dato.obtenery() <= P.obtenery())
+        {
+            nodo = nodo->obtenerHijoInfIzq();
+        }
+        else if (dato.obtenerx() > P.obtenerx() && dato.obtenery() <= P.obtenery())
+        {
+            nodo = nodo->obtenerHijoInfDer();
+        }
+        if (dato.obtenerx() == P.obtenerx() && dato.obtenery() == P.obtenery())
+        {
+            duplicado = true;
         }
     }
-    else
+    if (!duplicado)
     {
-        switch (elementoCuadrante)
+        NodoQuad<T> *nuevo = new NodoQuad<T>(dato);
+        if (nuevo != NULL)
         {
-        case CUADRANTE_1:
-            return insertarRecursivo(actual->obtenerHijoSupIzq(), val, elementoCuadrante);
-        case CUADRANTE_2:
-            return insertarRecursivo(actual->obtenerHijoSupDer(), val, elementoCuadrante);
-        case CUADRANTE_3:
-            return insertarRecursivo(actual->obtenerHijoInfIzq(), val, elementoCuadrante);
-        case CUADRANTE_4:
-            return insertarRecursivo(actual->obtenerHijoInfDer(), val, elementoCuadrante);
+            if (dato.obtenerx() <= P.obtenerx() && dato.obtenery() > P.obtenery())
+            {
+                padre->fijarHijoSupIzq(nuevo);
+            }
+            else if (dato.obtenerx() > P.obtenerx() && dato.obtenery() > P.obtenery())
+            {
+                padre->fijarHijoSupDer(nuevo);
+            }
+            else if (dato.obtenerx() <= P.obtenerx() && dato.obtenery() <= P.obtenery())
+            {
+                padre->fijarHijoInfIzq(nuevo);
+            }
+            else if (dato.obtenerx() > P.obtenerx() && dato.obtenery() <= P.obtenery())
+            {
+                padre->fijarHijoInfDer(nuevo);
+            }
         }
+        insertado = true;
     }
-
-    return actual;
+    return insertado;
 }
 
 template <class T>
-bool ArbolQuad<T>::insertar(T &val)
-{
+NodoQuad<T>* ArbolQuad<T>::buscarNodo(Punto val) {
+    NodoQuad<T>* nodo = this->raiz;
+    Punto P;
+    double distanciaMinima = 9999999; // Inicializar con un valor máximo
+    NodoQuad<T>* nodoMasCercano = nullptr;
 
-    Punto coordenadas = val;
+    while (nodo != nullptr) {
+        P = nodo->obtenerDato();
 
-    if (insertarRecursivo(raiz, val, calcularCuadrante(coordenadas)))
-    {
-
-        return true;
-    }
-    else
-    {
-
-        return false;
-    }
-}
-
-template <class T>
-NodoQuad<T> *ArbolQuad<T>::buscar(Punto p)
-{
-    NodoQuad<T> *actual = raiz;
-    while (actual != nullptr)
-    {
-        if (actual->estaEnCuadrante(p))
-        {
-            return actual;
+        if (val.obtenerx() <= P.obtenerx() && val.obtenery() > P.obtenery()) {
+            nodo = nodo->obtenerHijoSupIzq();
+        } else if (val.obtenerx() > P.obtenerx() && val.obtenery() > P.obtenery()) {
+            nodo = nodo->obtenerHijoSupDer();
+        } else if (val.obtenerx() < P.obtenerx() && val.obtenery() <= P.obtenery()) {
+            nodo = nodo->obtenerHijoInfIzq();
+        } else if (val.obtenerx() > P.obtenerx() && val.obtenery() <= P.obtenery()) {
+            nodo = nodo->obtenerHijoInfDer();
+        } else if (val.obtenerx() == P.obtenerx() && val.obtenery() == P.obtenery()) {
+            return nodo;
         }
-        else
-        {
-            actual = actual->obtenerHijo(actual->calcularCuadrante(p));
+        // Calcular la distancia euclidiana con los nodos circundantes
+        if (nodo != nullptr) {
+            double distancia = std::sqrt(std::pow(val.obtenerx() - P.obtenerx(), 2) + std::pow(val.obtenery() - P.obtenery(), 2));
+            if (distancia < distanciaMinima) {
+                distanciaMinima = distancia;
+                nodoMasCercano = nodo;
+            }
         }
     }
-    return nullptr;
+
+    return nodoMasCercano;
+}
+template <class T>
+void ArbolQuad<T>::preorden(NodoQuad<T>* nodo) {
+    if (nodo == nullptr) {
+        return;
+    }
+
+    std::cout<< nodo->obtenerDato().obtenernombre();
+    // Luego, visita el subárbol izquierdo (CUADRANTE_1)
+    preorden(nodo->obtenerHijoSupIzq());
+
+    // A continuación, visita el subárbol superior derecho (CUADRANTE_2)
+    preorden(nodo->obtenerHijoSupDer());
+
+    // Después, visita el subárbol inferior izquierdo (CUADRANTE_3)
+    preorden(nodo->obtenerHijoInfIzq());
+
+    // Finalmente, visita el subárbol inferior derecho (CUADRANTE_4)
+    preorden(nodo->obtenerHijoInfDer());
 }
 
+// Método público para iniciar el recorrido en preorden desde la raíz del árbol
 template <class T>
-Cuadrante ArbolQuad<T>::calcularCuadrante(Punto coordenadas)
-{
-    double x = *coordenadas.obtenerx();
-    int y = *coordenadas.obtenery();
-    if (x <= 0.0 && y <= 0)
-    {
-        return CUADRANTE_1;
-    }
-    else if (x <= 0.0 && y > 0)
-    {
-        return CUADRANTE_2;
-    }
-    else if (x > 0.0 && y <= 0)
-    {
-        return CUADRANTE_3;
-    }
-    else
-    {
-        return CUADRANTE_4;
-    }
+void ArbolQuad<T>::preOrden() {
+    preorden(raiz);
 }
