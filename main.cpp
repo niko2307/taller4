@@ -47,7 +47,7 @@ int main(int argc, char* argv[]) {
 
        
           bool insertQUAD=arbolQuad.insertar(val);
-          bool insertkd= arbolkd.insert( peso,  color,clase );
+          bool insertkd= arbolkd.insert( val );
           
 
 
@@ -64,13 +64,18 @@ int main(int argc, char* argv[]) {
          std::clock_t start_arbolQuad = std::clock();
          std::clock_t start_arbolkd = std::clock();
          NodoQuad<Punto>* nodoQuadEncontrado = arbolQuad.buscarNodo(Punto(pesoBusqueda, colorBusqueda));
-
+        NodoKD<Punto>* nodokdEncontrado = arbolkd.buscar(Punto(pesoBusqueda, colorBusqueda));
 if (nodoQuadEncontrado) {
         cout << "La fruta encontrada en el árbol Quad es: " << nodoQuadEncontrado->obtenerDato().obtenernombre() << endl;
     } else {
         cout << "La fruta no se encontró en el árbol Quad" << endl;
     }
-    
+   
+    if (nodokdEncontrado) {
+        cout << "La fruta encontrada en el árbol Quad es: " << nodoQuadEncontrado->obtenerDato().obtenernombre() << endl;
+    } else {
+        cout << "La fruta no se encontró en el árbol Quad" << endl;
+    }
 
            std::clock_t end_arbolQuad = std::clock();
            std::clock_t end_arbolkd = std::clock();
