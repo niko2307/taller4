@@ -19,25 +19,21 @@ Punto datoRaiz();
 NodoKD<T>* obtenerRaiz();
 void fijarRaiz(NodoKD<T>* n_raiz);
 bool esVacio();
-
+void preorden(NodoKD<T> *nodo);
 void preOrden();
+NodoKD<T> *buscarNodoKD(double x, int y);
+NodoKD<T> *buscarNodoKD(Punto val);
 void inOrden();
 void posOrden();
-void preOrden(NodoKD<T>* nodo);
-void inOrden(NodoKD<T>* nodo);
-void posOrden(NodoKD<T>* nodo);
+void nivelOrden();
+bool insert(T dato);
 
-bool insert(double peso, int color,std::string clase );
 
-std::string buscarFruta(NodoKD<T>* nodo, double peso, int color, double& distanciaMinima);
-std::string buscarFruta(double peso, int color);
- double calcularDistancia(double x1, int y1, double x2, int y2);
-
-int obtenerProfundidad(NodoKD<T>* nodo);
 
 
 };
 #include"arbolkd.hxx"
 
 #endif//ARBOLKD_H
+
 
