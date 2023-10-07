@@ -127,33 +127,42 @@ void ArbolKD<T>::preOrden() {
     preorden(this->raiz);
 }
 
+
 template <class T>
-NodoKD<T>* ArbolKD<T>::buscar(Punto val) {
+NodoKD<T>* ArbolKD<T>::buscarNodoKD(double x, int y) {
+    return buscarNodoKD(Punto(x, y));
+}
+
+template <class T>
+NodoKD<T>*ArbolKD<T>::buscarNodoKD(Punto val) {
     NodoKD<T>* nodo = this->raiz;
     Punto P;
-    bool comparaX = true; 
+    double distanciaMinima = 9999999; 
+    NodoKD<T>* nodoMasCercano = nullptr;
 
     while (nodo != nullptr) {
         P = nodo->obtenerDato();
-        
-        if (val.obtenerx() == P.obtenerx() && val.obtenery() == P.obtenery()) {
-            return nodo;
-        } else {
-            // Alternamos entre X e Y
-            comparaX = !comparaX;
 
-            if (comparaX) {
-                if (val.obtenerx() <= P.obtenerx())
-                    nodo = nodo->obtenerHijoIzq();
-                else
-                    nodo = nodo->obtenerHijoDer();
-            } else {
-                if (val.obtenery() <= P.obtenery())
-                    nodo = nodo->obtenerHijoIzq();
-                else
-                    nodo = nodo->obtenerHijoDer();
+        if (val.obtenerx() <= P.obtenerx() && val.obtenery() > P.obtenery()) {
+            nodo = nodo->obtenerHijoIzq();
+        } else if (val.obtenerx() > P.obtenerx() && val.obtenery() > P.obtenery()) {
+            nodo = nodo->obtenerHijoDer();
+        } else if (val.obtenerx() < P.obtenerx() && val.obtenery() <= P.obtenery()) {
+            nodo = nodo->obtenerHijoIzq();
+        } else if (val.obtenerx() > P.obtenerx() && val.obtenery() <= P.obtenery()) {
+            nodo = nodo->obtenerHijoDer();
+        } else if (val.obtenerx() == P.obtenerx() && val.obtenery() == P.obtenery()) {
+            return nodo;
+        }
+        // Calcular la distancia euclidiana con los nodos circundantes
+        if (nodo != nullptr) {
+            double distancia = std::sqrt(std::pow(val.obtenerx() - P.obtenerx(), 2) + std::pow(val.obtenery() - P.obtenery(), 2));
+            if (distancia < distanciaMinima) {
+                distanciaMinima = distancia;
+                nodoMasCercano = nodo;
             }
         }
     }
-    return nullptr;
+
+    return nodoMasCercano;
 }
