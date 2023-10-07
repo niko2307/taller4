@@ -1,124 +1,78 @@
 #include <cmath>
 #include "arbolkd.h"
-#include "fruta.h"
-#include <limits>
 
 
 
 template <class T>
-bool ArbolKD<T>::insert(double peso, int color,std::string clase )
-{
-    std::cout<<"entroinsertar"<<std::endl;
-    Punto p (peso, color, clase);
-     std::cout <<"puntox: "<<*p.obtenerx()<<"puntoy: "<<*p.obtenery()<<std::endl;
-   
-    NodoKD<T>* nodo = this->raiz;
+bool ArbolKD<T>::insert(T dato) {
     NodoKD<T>* padre = this->raiz;
+    NodoKD<T>* nodo = this->raiz;
     bool insertado = false;
-	bool duplicado = false;
-    int depth=0;
-    
-    std::cout <<"puntox: "<<*p.obtenerx()<<"puntoy: "<<*p.obtenery()<<std::endl;
-    if(this->raiz == nullptr){
-        
-        this->raiz = new NodoKD<T>(p);
+    bool duplicado = false;
+    int dimension = 1;
+
+    if (this->esVacio()) {
+        NodoKD<T>* raiz = new NodoKD<T>(dato);
+        this->raiz = raiz;
         insertado = true;
-        std::cout<<"entroifnuevoraiz"<<std::endl;
-        return insertado;
-    }
+    } else {
+        while (padre != nullptr) {
+            nodo = padre;
 
-    while(nodo != nullptr){
-        std::cout<<"entrowhilenodo"<<std::endl;
-        padre = nodo;
-        int cd = depth % 2;
-
-    if (cd == 0)
-    {
-        std::cout<<"cuadrante1"<<std::endl;
-        std::cout<<" "<<std::endl;
-       if (*p.obtenerx() < *nodo->obtenerDato().obtenerx())
-        {
-            std::cout<<"obtener x hijo izq "<<std::endl;
-           nodo = nodo -> obtenerHijoIzq();
-        } 
-        else if (*p.obtenerx() > *nodo->obtenerDato().obtenerx())
-        {
-            std::cout<<"obtener x hijo der "<<std::endl;
-           nodo = nodo -> obtenerHijoDer();
-           std::cout<<"obtener hijo izq "<<std::endl;
-            //std::cout << "nombre: " << nodo->obtenerDato().obtenernombre()  << std::endl;
-       
-        }
-    }else
-    {
-       std::cout<<"cuadrante2"<<std::endl;
-        if (*p.obtenery() < *nodo->obtenerDato().obtenery())
-        {
-            std::cout<<"obtener y hijo izq "<<std::endl;
-           nodo = nodo -> obtenerHijoIzq();
-        } 
-        else if (*p.obtenery() > *nodo->obtenerDato().obtenery())
-        {
-            std::cout<<"obtener y hijo der "<<std::endl;
-            nodo = nodo -> obtenerHijoDer();
-        }
-    }
-
-    if(nodo !=nullptr && *p.obtenerx() == *nodo->obtenerDato().obtenerx() &&  *p.obtenery() == *nodo->obtenerDato().obtenery()){
-        duplicado = true;
-        std::cout<<"es duplicado"<<std::endl;
-        break;
-    }
-
-    depth++; 
-    }
-    if(!duplicado){
-        std::cout<<"no es duplicado"<<std::endl;
-       NodoKD<T>* nuevo = new NodoKD<T>(p);
-       int cd = (depth-1) % 2;
-        
-           if (cd == 0)
-            {
-            if (*p.obtenerx() < *nodo->obtenerDato().obtenerx())
-                {
-                    std::cout<<"fijar hijo izquierdo "<<std::endl;
-                padre -> fijarHijoIzq(nuevo);
-                } 
-                else if (*p.obtenerx() > *nodo->obtenerDato().obtenerx())
-                {
-                    std::cout<<"fijar hijo derecho "<<std::endl;
-                    padre -> fijarHijoDer(nuevo);
-                }
-            }else if (cd == 1)
-            {
-                if (*p.obtenery() < *nodo->obtenerDato().obtenery())
-                {
-                    std::cout<<"fijar hijo izquierdo "<<std::endl;
-                padre -> fijarHijoIzq(nuevo);
-                } 
-                else if (*p.obtenery() > *nodo->obtenerDato().obtenery())
-                {
-                    std::cout<<"fijar hijo derecho "<<std::endl;
-                    padre -> fijarHijoDer(nuevo);
-                }
+            if (padre->obtenerDato().obtenerx() == dato.obtenerx() && padre->obtenerDato().obtenery() == dato.obtenery()) {
+                duplicado = true;
+                break;
             }
 
-            insertado = true;
+            if (dimension % 2 != 0) { 
+                if (dato.obtenerx() <= padre->obtenerDato().obtenerx()) {
+                    padre = padre->obtenerHijoIzq();
+                } else {
+                    padre = padre->obtenerHijoDer();
+                }
+                dimension++;
+            } else { 
+                if (dato.obtenery() <= padre->obtenerDato().obtenery()) {
+                    padre = padre->obtenerHijoIzq();
+                } else {
+                    padre = padre->obtenerHijoDer();
+                }
+                dimension++;
+            }
+        }
 
+        dimension--;
+
+        if (nodo != nullptr && !duplicado) {
+            NodoKD<T>* nuevo = new NodoKD<T>(dato);
+
+            if (dimension % 2 != 0) { // Dimensión x
+                if (dato.obtenerx() <= nodo->obtenerDato().obtenerx() && nodo->obtenerHijoIzq() == nullptr) {
+                    nodo->fijarHijoIzq(nuevo);
+                } else if (dato.obtenerx() > nodo->obtenerDato().obtenerx() && nodo->obtenerHijoDer() == nullptr) {
+                    nodo->fijarHijoDer(nuevo);
+                }
+                insertado = true;
+            } else { // Dimensión y
+                if (dato.obtenery() <= nodo->obtenerDato().obtenery() && nodo->obtenerHijoIzq() == nullptr) {
+                    nodo->fijarHijoIzq(nuevo);
+                } else if (dato.obtenery() > nodo->obtenerDato().obtenery() && nodo->obtenerHijoIzq() == nullptr) {
+                    nodo->fijarHijoDer(nuevo);
+                }
+                insertado = true;
+            }
+        }
     }
     return insertado;
-
 }
- 
-
 template <class T>
 ArbolKD<T>::ArbolKD() {
     raiz = NULL;
 }
 
 template <class T>
-ArbolKD<T>::ArbolKD(Punto p) {
-    raiz = new NodoKD<T>(p);
+ArbolKD<T>::ArbolKD(Punto val) {
+    raiz = new NodoKD<T>(val);
 }
 
 
@@ -153,99 +107,53 @@ bool ArbolKD<T>::esVacio() {
 
 
 template <class T>
-std::string ArbolKD<T>::buscarFruta(NodoKD<T>* nodo, double peso, int color, double& distanciaMinima) {
+void ArbolKD<T>::preorden(NodoKD<T>* nodo) {
     if (nodo == nullptr) {
-        return "";
+        return;
     }
-    double distancia = calcularDistancia(*nodo->obtenerDato().obtenerx(), *nodo->obtenerDato().obtenery(), peso, color);
-    if (distancia < distanciaMinima) {
-        distanciaMinima = distancia;
-        return nodo->obtenerDato().obtenernombre();
-    }
-    int profundidad = obtenerProfundidad(nodo);
-    int cd = profundidad % 2;
-    if (cd == 0) {
-        if (peso < *nodo->obtenerDato().obtenerx()) {
-            return buscarFruta(nodo->obtenerHijoIzq(), peso, color, distanciaMinima);
-        } else {
-            return buscarFruta(nodo->obtenerHijoDer(), peso, color, distanciaMinima);
-        }
-    } else {
-        if (color < *nodo->obtenerDato().obtenery()) {
-            return buscarFruta(nodo->obtenerHijoIzq(), peso, color, distanciaMinima);
-        } else {
-            return buscarFruta(nodo->obtenerHijoDer(), peso, color, distanciaMinima);
-        }
-    }
+
+   std::cout<< nodo->obtenerDato().obtenernombre();
+    
+   
+    preorden(nodo->obtenerHijoIzq());
+
+    
+    preorden(nodo->obtenerHijoDer());
 }
 
-template <class T>
-std::string ArbolKD<T>::buscarFruta(double peso, int color) {
-    double distanciaMinima = std::numeric_limits<double>::max();
-    return buscarFruta(this->raiz, peso, color, distanciaMinima);
-}
-
-template <class T>
-double ArbolKD<T>::calcularDistancia(double x1, int y1, double x2, int y2) {
-    double dx = x2 - x1;
-    double dy = y2 - y1;
-    return std::sqrt(dx * dx + dy * dy);
-}
-
-
-
-template <class T>
-int ArbolKD<T>::obtenerProfundidad(NodoKD<T>* nodo) {
-    if (nodo == nullptr) {
-        return 0;
-    }
-    int profundidadIzq = obtenerProfundidad(nodo->obtenerHijoIzq());
-    int profundidadDer = obtenerProfundidad(nodo->obtenerHijoDer());
-    return std::max(profundidadIzq, profundidadDer) + 1;
-}
-
-// Método de recorrido en orden (in-order)
-template <class T>
-void ArbolKD<T>::inOrden(NodoKD<T>* nodo) {
-    if (nodo != nullptr) {
-        inOrden(nodo->obtenerHijoIzq());
-        std::cout << "nombre: " << nodo->obtenerDato().obtenernombre() << " peso: " << *nodo->obtenerDato().obtenerx() << " color: " << *nodo->obtenerDato().obtenery() << std::endl;
-        inOrden(nodo->obtenerHijoDer());
-    }
-}
-
-// Método de recorrido preorden
-template <class T>
-void ArbolKD<T>::preOrden(NodoKD<T>* nodo) {
-    if (nodo != nullptr) {
-        std::cout << "nombre: " << nodo->obtenerDato().obtenernombre() << " peso: " << *nodo->obtenerDato().obtenerx() << " color: " << *nodo->obtenerDato().obtenery() << std::endl;
-        preOrden(nodo->obtenerHijoIzq());
-        preOrden(nodo->obtenerHijoDer());
-    }
-}
-
-// Método de recorrido postordenArbolKD<T>::
-template <class T>
-void ArbolKD<T>::posOrden(NodoKD<T>* nodo) {
-    if (nodo != nullptr) {
-        posOrden(nodo->obtenerHijoIzq());
-        posOrden(nodo->obtenerHijoDer());
-        std::cout << "nombre: " << nodo->obtenerDato().obtenernombre() << " peso: " << *nodo->obtenerDato().obtenerx() << " color: " << *nodo->obtenerDato().obtenery() << std::endl;
-    }
-}
-
-// Funciones públicas para iniciar los recorridos desde la raíz del Árbol KD
-template <class T>
-void ArbolKD<T>::inOrden() {
-    inOrden(this->raiz);
-}
 
 template <class T>
 void ArbolKD<T>::preOrden() {
-    preOrden(this->raiz);
+    preorden(this->raiz);
 }
 
 template <class T>
-void ArbolKD<T>::posOrden() {
-    posOrden(this->raiz);
+NodoKD<T>* ArbolKD<T>::buscar(Punto val) {
+    NodoKD<T>* nodo = this->raiz;
+    Punto P;
+    bool comparaX = true; 
+
+    while (nodo != nullptr) {
+        P = nodo->obtenerDato();
+        
+        if (val.obtenerx() == P.obtenerx() && val.obtenery() == P.obtenery()) {
+            return nodo;
+        } else {
+            // Alternamos entre X e Y
+            comparaX = !comparaX;
+
+            if (comparaX) {
+                if (val.obtenerx() <= P.obtenerx())
+                    nodo = nodo->obtenerHijoIzq();
+                else
+                    nodo = nodo->obtenerHijoDer();
+            } else {
+                if (val.obtenery() <= P.obtenery())
+                    nodo = nodo->obtenerHijoIzq();
+                else
+                    nodo = nodo->obtenerHijoDer();
+            }
+        }
+    }
+    return nullptr;
 }
