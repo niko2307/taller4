@@ -1,4 +1,5 @@
 
+
 #include <ctime>
 #include <cmath> 
 #include <iostream>
@@ -46,17 +47,16 @@ int main(int argc, char* argv[]) {
         Punto val(peso, color, clase);
 
        
-          bool insertQUAD=arbolQuad.insertar(val);
-          bool insertkd= arbolkd.insert( val );
-          
-
-
-          cout<<"se insero correctamente en los arboles quad y kd  "<<endl;
+        bool insertQUAD=arbolQuad.insertar(val);
+        bool insertkd= arbolkd.insert(val);
+      
+          cout<<"se inserto correctamente en los arboles quad y kd  "<<endl;
     }
 
     double pesoBusqueda, colorBusqueda;
     cout << "Ingrese el peso que desea buscar: ";
     cin >> pesoBusqueda;
+    
     cout << "Ingrese el color que desea buscar: ";
     cin >> colorBusqueda;
 
@@ -64,17 +64,18 @@ int main(int argc, char* argv[]) {
          std::clock_t start_arbolQuad = std::clock();
          std::clock_t start_arbolkd = std::clock();
          NodoQuad<Punto>* nodoQuadEncontrado = arbolQuad.buscarNodo(Punto(pesoBusqueda, colorBusqueda));
-        NodoKD<Punto>* nodokdEncontrado = arbolkd.buscar(Punto(pesoBusqueda, colorBusqueda));
+          NodoKD<Punto>* nodokdEncontrado = arbolkd.buscarNodoKD(Punto(pesoBusqueda, colorBusqueda));
+
 if (nodoQuadEncontrado) {
         cout << "La fruta encontrada en el árbol Quad es: " << nodoQuadEncontrado->obtenerDato().obtenernombre() << endl;
     } else {
         cout << "La fruta no se encontró en el árbol Quad" << endl;
     }
-   
-    if (nodokdEncontrado) {
-        cout << "La fruta encontrada en el árbol Quad es: " << nodoQuadEncontrado->obtenerDato().obtenernombre() << endl;
+
+if (nodokdEncontrado) {
+        cout << "La fruta encontrada en el árbol kd es: " << nodokdEncontrado->obtenerDato().obtenernombre() << endl;
     } else {
-        cout << "La fruta no se encontró en el árbol Quad" << endl;
+        cout << "La fruta no se encontró en el árbol kd" << endl;
     }
 
            std::clock_t end_arbolQuad = std::clock();
@@ -88,5 +89,7 @@ if (nodoQuadEncontrado) {
        
 
     archivo.close(); 
+
+
     return 0;
 }
